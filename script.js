@@ -14,10 +14,15 @@ namespace SoundPlayerApp
         private Dictionary<string, string> soundLibrary = new Dictionary<string, string>();
         private List<string> soundOrder = new List<string>();
 
+        private TextBox txtSoundOrder;
+        private Button btnLoadTable;
+        private Button btnPlaySequence;
+
         public MainForm()
         {
             InitializeComponent();
             LoadSounds();
+            SetupUI();
         }
 
         private void LoadSounds()
@@ -25,6 +30,34 @@ namespace SoundPlayerApp
             soundLibrary["Sound1"] = "path_to_sound1.wav";
             soundLibrary["Sound2"] = "path_to_sound2.wav";
             soundLibrary["Sound3"] = "path_to_sound3.wav";
+        }
+
+        private void SetupUI()
+        {
+            txtSoundOrder = new TextBox
+            {
+                Multiline = true,
+                Width = 300,
+                Height = 100,
+                Location = new System.Drawing.Point(10, 10)
+            };
+            Controls.Add(txtSoundOrder);
+
+            btnLoadTable = new Button
+            {
+                Text = "Load Sound Order",
+                Location = new System.Drawing.Point(10, 120)
+            };
+            btnLoadTable.Click += BtnLoadTable_Click;
+            Controls.Add(btnLoadTable);
+
+            btnPlaySequence = new Button
+            {
+                Text = "Play Sequence",
+                Location = new System.Drawing.Point(150, 120)
+            };
+            btnPlaySequence.Click += BtnPlaySequence_Click;
+            Controls.Add(btnPlaySequence);
         }
 
         private void PlaySound(string soundName)
