@@ -1,5 +1,5 @@
-// Sound table (maps number to file names)
-const sounds = {
+// Sound order mapping
+const soundOrder = {
     1: "10",
     2: "1",
     3: "2",
@@ -12,28 +12,25 @@ const sounds = {
 };
 
 // Function to play sounds in order
-function playSounds(soundTable) {
-    let keys = Object.keys(soundTable);
+function playSounds() {
+    let keys = Object.keys(soundOrder);
     let index = 0;
 
     function playNext() {
-        if (index >= keys.length) return; // Stop when all sounds are played
+        if (index < keys.length) {
+            let soundNumber = soundOrder[keys[index]];
+            let audio = new Audio(`${soundNumber}.mp3`); // Directly in the main directory
+            audio.play();
 
-        let soundKey = keys[index];
-        let soundFile = `sounds/${soundTable[soundKey]}.mp3`; // Path to the sound file
-        let audio = new Audio(soundFile);
-
-        audio.play();
-        index++;
-
-        // Play the next sound after the current one finishes
-        audio.onended = playNext;
+            audio.onended = () => {
+                index++;
+                playNext();
+            };
+        }
     }
 
-    playNext(); // Start playing the first sound
+    playNext();
 }
 
-// Attach play function to the button
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("playButton").addEventListener("click", () => playSounds(sounds));
-});
+// Play button event listener
+document.getElementById("playButton").addEventListener("click", playSounds);
